@@ -75,6 +75,7 @@ const tweetContentStyle=TextStyle(
 
 const newsTag=TextStyle(
   fontSize: 9,
+  fontWeight: FontWeight.bold,
 );
 
 const newsHeader=TextStyle(
@@ -83,5 +84,5 @@ const newsHeader=TextStyle(
 );
 
 const newDataStyle=TextStyle(
-  fontSize: 10,
+  fontSize: 12,
 );

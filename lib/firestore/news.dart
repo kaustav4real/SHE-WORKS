@@ -34,63 +34,79 @@ class _DisplayNewsState extends State<DisplayNews> {
             document.data()! as Map<String, dynamic>;
             return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(data['imgURL']),
+                Card(
+                  child: Padding(
+                    padding:const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(data['imgURL']),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                data['tags'],
-                                style: newsTag,
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                data['title'],
-                                style: newsHeader,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                maxLines: 3,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Row(
+                        Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(
-                                    data['date'],
-                                    style: newDataStyle,
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: Container(
+                                      padding: EdgeInsets.all(3),
+                                      color: Colors.grey.withOpacity(0.3),
+                                      child: Text(
+                                        data['tags'],
+                                        style: newsTag,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
                                   ),
                                   Text(
-                                    '${data['readTime']} mins',
-                                    style: newDataStyle,
-                                  )
+                                    data['title'],
+                                    style: newsHeader,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    maxLines: 3,
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        data['date'],
+                                        style: newDataStyle,
+                                      ),
+                                      Text(
+                                        '${data['readTime']} mins',
+                                        style: newDataStyle,
+                                      ),
+                                      const Icon(
+                                        Icons.bookmark,
+                                        size: 14,
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ))
-                  ],
+                            ))
+                      ],
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 10,)
+                const SizedBox(height: 15,)
               ],
             );
           }).toList(),
