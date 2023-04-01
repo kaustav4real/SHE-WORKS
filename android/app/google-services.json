@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456089848661",
+    "project_id": "hackvita-90b03",
+    "storage_bucket": "hackvita-90b03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456089848661:android:9618f48363754468cf3ddc",
+        "android_client_info": {
+          "package_name": "com.example.hackVita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456089848661-5nct2s71ptdsgmh5i3l8g9363ankesk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6ltMLpNIXyZaaOBO_4gj1PznCQfBdYPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456089848661-5nct2s71ptdsgmh5i3l8g9363ankesk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
