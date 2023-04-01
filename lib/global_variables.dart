@@ -48,3 +48,33 @@ const newsTimeStyle=TextStyle(
 );
 
 const newsTagBackgroundColor=Color(0XFFECEFF1);
+
+const globalHeading=TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600
+);
+
+
+const feedOwner=TextStyle(
+    fontWeight: FontWeight.bold
+);
+
+
+
+
+
+
+/* News Styles*/
+
+const newsTag=TextStyle(
+  fontSize: 9,
+);
+
+const newsHeader=TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w500
+);
+
+const newDataStyle=TextStyle(
+  fontSize: 10,
+);
