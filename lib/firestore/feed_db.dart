@@ -11,7 +11,7 @@ class DisplayFeed extends StatefulWidget {
 
 class _DisplayFeedState extends State<DisplayFeed> {
   final Stream<QuerySnapshot> _feedStream =
-  FirebaseFirestore.instance.collection('feed').snapshots();
+  FirebaseFirestore.instance.collection('feed').orderBy('date', descending: true).snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -40,9 +40,11 @@ class _DisplayFeedState extends State<DisplayFeed> {
                       height: 45,
                       width: 45,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(80),
-                        child: Image(
-                            fit: BoxFit.cover, image: NetworkImage(data['url'])),
+                          borderRadius: BorderRadius.circular(80),
+                          child: Image(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(data['dpurl'])
+                          )
                       ),
                     ),
                     const SizedBox(
@@ -50,6 +52,7 @@ class _DisplayFeedState extends State<DisplayFeed> {
                     ),
                     Expanded(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -70,23 +73,30 @@ class _DisplayFeedState extends State<DisplayFeed> {
                                   width: 0,
                                 ),
                               ]),
-                              const SizedBox(width: 10,),
+                              const SizedBox(width: 5,),
                               Text(data['userName'], style: const TextStyle(
                                   color: Colors.blueGrey
                               ),)
                             ],
                           ),
+                          const SizedBox(height: 2),
                           Text(
                             data['content'],
                             maxLines: 30,
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,
-                          )
+                            style: tweetContentStyle,
+                          ),
+                          data['url']!=null? Image(
+                            image: NetworkImage(data['url'] as String),
+                          ):const  SizedBox.shrink()
                         ],
                       ),
                     )
                   ],
-                )
+                ),
+                const SizedBox(height: 5,),
+                const Divider(),
               ],
             );
           }).toList(),

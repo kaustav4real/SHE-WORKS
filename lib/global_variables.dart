@@ -59,8 +59,15 @@ const feedOwner=TextStyle(
     fontWeight: FontWeight.bold
 );
 
+const FeedHeader=TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.w500
+);
 
-
+const tweetContentStyle=TextStyle(
+    fontSize: 13,
+    height: 1.5
+);
 
 
 

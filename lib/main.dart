@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hackVita/firebase_options.dart';
 import 'package:hackVita/global_variables.dart';
-import 'package:hackVita/pages/feed.dart';
+import 'package:hackVita/pages/feed_page.dart';
 import 'package:hackVita/pages/jobs_page.dart';
 import 'package:hackVita/pages/news.dart';
+import 'package:hackVita/pages/send_tweet.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   bool setTweetPage = false;
   int selectedIndex = 0;
 
-  static const List<Widget> items = <Widget>[NewsPage(), JobPage(), Feed()];
+  static const List<Widget> items = <Widget>[NewsPage(), JobPage(), FeedPage()];
   void onItemTapped(int index){
     setState(() {
       selectedIndex = index;
@@ -78,14 +79,13 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.red, fontWeight: FontWeight.bold),
               onTap: onItemTapped,
             ),
-            // floatingActionButton: selectedIndex == 2
-            //     ? const FloatingBtn()
-            //     : const SizedBox(
-            //   height: 0,
-            //   width: 0,
-            // ),
+            floatingActionButton: selectedIndex == 2
+                ? const FloatingBtn()
+                : const SizedBox(
+              height: 0,
+              width: 0,
+            )),
         ),
-      ),
-    );
+      );
   }
 }

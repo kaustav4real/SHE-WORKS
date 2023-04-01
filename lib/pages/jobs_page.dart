@@ -20,23 +20,7 @@ class _JobPageState extends State<JobPage> {
 
   @override
   Widget build(BuildContext context) {
-    return /* Stack(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.grey.withOpacity(0.1),
-                ),
-              ),
-            ],
-          )*/
-      SingleChildScrollView(
+    return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -113,7 +97,7 @@ class HomeAppBar extends StatelessWidget {
               ),
               SizedBox(height: 3),
               Text(
-                'Annie Bryant',
+                'Prerona Gogoi',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 28,
