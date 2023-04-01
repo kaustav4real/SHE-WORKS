@@ -2,56 +2,104 @@ import 'package:flutter/material.dart';
 import 'package:hackVita/models/job.dart';
 import 'package:hackVita/pages/jobs_page.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  List<Job> filteredJobList = [];
+
+  void _filterJobs(String searchText) {
+    setState(() {
+      filteredJobList = Job.generateJobs()
+          .where((job) =>
+              job.title.toLowerCase().contains(searchText.toLowerCase()) ||
+              job.company.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(),
-              ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SearchAppBar(),
-              SearchInput(),
-              SearchOption(),
-              Expanded(child: SearchList()),
-            ],
-          )
-        ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SearchAppBar(),
+                //SearchInput(onTextChanged: _filterJobs),
+                SearchOption(),
+                Expanded(child: SearchList()),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class SearchList extends StatelessWidget {
-  final joblist = Job.generateJobs();
+class SearchList extends StatefulWidget {
+  @override
+  _SearchListState createState() => _SearchListState();
+}
+
+class _SearchListState extends State<SearchList> {
+  List<Job> joblist = Job.generateJobs();
+  String _searchQuery = '';
+
+  List<Job> get filteredJobs {
+    if (_searchQuery.isEmpty) {
+      return joblist;
+    } else {
+      return joblist
+          .where((job) =>
+              job.company.toLowerCase().contains(_searchQuery.toLowerCase()))
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 25),
-      child: ListView.separated(
-          itemBuilder: (context, index) => JobItem(
-                joblist[index],
+    return Column(
+      children: [
+        SearchInput(onTextChanged: (query) {
+          setState(() {
+            _searchQuery = query;
+          });
+        }),
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.only(top: 25),
+            child: ListView.separated(
+              itemBuilder: (context, index) => JobItem(
+                filteredJobs[index],
                 showTime: true,
               ),
-          separatorBuilder: (_, index) => SizedBox(height: 20),
-          itemCount: joblist.length),
+              separatorBuilder: (_, index) => SizedBox(height: 20),
+              itemCount: filteredJobs.length,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -119,38 +167,40 @@ class SearchAppBar extends StatelessWidget {
 }
 
 class SearchInput extends StatelessWidget {
-  const SearchInput({Key? key}) : super(key: key);
+  final Function(String) onTextChanged;
+  const SearchInput({Key? key, required this.onTextChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(25),
+      margin: EdgeInsets.only(bottom: 0, top: 20),
       child: Row(
         children: [
           Expanded(
               child: TextField(
-                cursorColor: Colors.grey,
-                decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(15),
-                      child: Image.asset(
-                        'assets/icons/search.png',
-                        width: 20,
-                      ),
-                    )),
-              )),
+            onChanged: onTextChanged,
+            cursorColor: Colors.grey,
+            decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
+                ),
+                hintText: 'Search',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18,
+                ),
+                contentPadding: EdgeInsets.zero,
+                prefixIcon: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                  child: Image.asset(
+                    'assets/icons/search.png',
+                    width: 20,
+                  ),
+                )),
+          )),
           SizedBox(width: 10),
           Container(
             height: 50,
@@ -192,51 +242,51 @@ class _SearchOptionState extends State<SearchOption> {
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(horizontal: 25),
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
-              setState(() {
-                var res = optionMap[keys[index]] ?? false;
-                optionMap[keys[index]] = !res;
-              });
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(
-                  color: optionMap[keys[index]] != null &&
-                      optionMap[keys[index]] == true
-                      ? Theme.of(context).primaryColor
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                  )),
-              child: Row(
-                children: [
-                  Text(
-                    keys[index],
-                    style: TextStyle(
-                      fontSize: 12,
+                onTap: () {
+                  setState(() {
+                    var res = optionMap[keys[index]] ?? false;
+                    optionMap[keys[index]] = !res;
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
                       color: optionMap[keys[index]] != null &&
-                          optionMap[keys[index]] == true
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  ),
-                  if (optionMap[keys[index]] != null &&
-                      optionMap[keys[index]] == true)
-                    Row(
-                      children: [
-                        SizedBox(width: 10),
-                        Icon(
-                          Icons.close,
-                          size: 15,
-                          color: Colors.white,
+                              optionMap[keys[index]] == true
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      )),
+                  child: Row(
+                    children: [
+                      Text(
+                        keys[index],
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: optionMap[keys[index]] != null &&
+                                  optionMap[keys[index]] == true
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
+                      if (optionMap[keys[index]] != null &&
+                          optionMap[keys[index]] == true)
+                        Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Icon(
+                              Icons.close,
+                              size: 15,
+                              color: Colors.white,
+                            )
+                          ],
                         )
-                      ],
-                    )
-                ],
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
           separatorBuilder: (_, index) => SizedBox(width: 10),
           itemCount: optionMap.length),
     );

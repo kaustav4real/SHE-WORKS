@@ -1,11 +1,10 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hackVita/firebase_options.dart';
 import 'package:hackVita/global_variables.dart';
 import 'package:hackVita/pages/feed_page.dart';
 import 'package:hackVita/pages/jobs_page.dart';
-import 'package:hackVita/pages/news.dart';
+import 'package:hackVita/pages/news_page.dart';
 import 'package:hackVita/pages/send_tweet.dart';
 
 Future<void> main() async {
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   bool setTweetPage = false;
   int selectedIndex = 0;
 
-  static const List<Widget> items = <Widget>[NewsPage(), JobPage(), FeedPage()];
+  static const List<Widget> items = <Widget>[NewsWidget(), JobPage(), FeedPage()];
   void onItemTapped(int index){
     setState(() {
       selectedIndex = index;

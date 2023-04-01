@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../global_variables.dart';
 import '../firestore/feed_db.dart';
+
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
 
@@ -8,20 +8,60 @@ class FeedPage extends StatefulWidget {
   State<FeedPage> createState() => _FeedPageState();
 }
 
-class _FeedPageState extends State<FeedPage> {
+class MyAppBar extends StatelessWidget {
+  const MyAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      children: [
+        Row(
+          children: <Widget>[
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(80),
+                child:const Image(
+                  image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTOpcKSjWNv37qjuGhlNiXoXJU5HmCUtPhgivKXXUg&s',),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10,),
+            const Text('Your Feed', style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),)
+          ],
+        ),
+        const SizedBox(height: 4,),
+        const Divider(
+          thickness: 2,
+        )
+      ],
+    );
+  }
+}
 
-      children: <Widget> [
+class _FeedPageState extends State<FeedPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
         Padding(
-          padding:const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:const <Widget> [
-              Text('Your Feed', style:FeedHeader,),
-              SizedBox(height: 10,),
+            children: const <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              MyAppBar(),
+              SizedBox(
+                height: 10,
+              ),
               DisplayFeed()
             ],
           ),
